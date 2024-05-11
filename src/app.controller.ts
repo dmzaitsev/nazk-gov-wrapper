@@ -1,5 +1,14 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  Res,
+  Req,
+  HttpStatus,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { Request, Response } from 'express';
 
 @Controller()
 export class AppController {
@@ -28,5 +37,19 @@ export class AppController {
       value,
     );
     return this.appService.filterDocumentIDs(filteredDocs);
+  }
+
+  @Post('guest/save')
+  public async saveWeddingGuest(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const guestData = req.body;
+    const response = await this.appService.insertWeddingGuest(guestData);
+    if (response?.data?.insertedId) {
+      return res.status(HttpStatus.OK).send('OK');
+    } else {
+      return res.status(HttpStatus.BAD_REQUEST).send('Failed');
+    }
   }
 }

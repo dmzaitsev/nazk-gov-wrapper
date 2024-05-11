@@ -74,4 +74,29 @@ export class AppService {
       ),
     );
   }
+
+  private readonly mongoUrl =
+    'https://eu-central-1.aws.data.mongodb-api.com/app/data-wxpohua/endpoint/data/v1/action/insertOne';
+  private readonly mongoHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Request-Headers': '*',
+    'api-key':
+      'vKYiTfTelegeSz3p5NvSSS8KpiVgpvu4L3gQRGR01Vg45MPwg60gf2zD5o7PxcmI',
+  };
+
+  public async insertWeddingGuest(guest: any): Promise<any> {
+    const body = {
+      collection: 'weddingG',
+      database: 'weddingG',
+      dataSource: 'Cluster0',
+      document: guest,
+    };
+    return await firstValueFrom(
+      this.http
+        .post(this.mongoUrl, body, {
+          headers: this.mongoHeaders,
+        })
+        .pipe(),
+    );
+  }
 }
