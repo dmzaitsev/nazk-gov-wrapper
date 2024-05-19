@@ -52,4 +52,9 @@ export class AppController {
       return res.status(HttpStatus.BAD_REQUEST).send('Failed');
     }
   }
+
+  @Get('keep/alive')
+  public async keepRenderAlive(@Res() res: Response): Promise<Response> {
+    return res.status(HttpStatus.CREATED).json({ alive: true });
+  }
 }
